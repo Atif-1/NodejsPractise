@@ -1,24 +1,20 @@
 const http=require('http');
+const fs=require('fs');
 const server=http.createServer((req,res)=>{
-	console.log('successfull listen');
-	
-	res.setHeader('Content-Type','text/html');
+	const url=req.url;
+	const method=req.method;
+	if(url==='/'){
 	res.write('<html>');
 	res.write('<head><title>My First Server</title></head>');
-	if(req.url=='/home'){
-	res.write('<body><h1>Welcome home</h1></body>');
-	}
-	else if(req.url=='/about'){
-	res.write('<body><h1>Welcome to About Us page</h1></body>');
-	}
-	else if(req.url=='/node'){
-	res.write('<body><h1>Welcome to my Node Js project</h1></body>');
-	}
-	else{
-	res.write('<body><h1>please enter url</h1></body>');
-	}
-	
+	res.write('<body><form action="/message" method ="POST"><input type="text" name="message"><input type="submit"></form></body>')
 	res.write('</html>');
-	res.end();
+	return res.end();
+	}
+	if(url=='/message' && method=='POST'){
+		fs.writeFileSync('message.txt','DUMMY');
+		res.statusCode=302;
+		res.setHeader('Location','/');//to  set back the page url to slash
+		return res.end();
+	}
 });
 server.listen('4000');
