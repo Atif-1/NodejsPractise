@@ -20,9 +20,17 @@ function requestHandler(req,res){
 			const msg=parsedBody.split('=')[1];
 			fs.writeFileSync('message.txt',msg);
 		})
+		
 		res.statusCode=302;
 		res.setHeader('Location','/');//to  set back the page url to slash
 		return res.end();
 	}
 }
-module.exports=requestHandler;
+//module.exports=requestHandler;
+
+// module.exports={
+// 	handler:requestHandler
+//	someText:" some hard coded text";
+// }
+
+exports.handler=requestHandler;
